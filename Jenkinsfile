@@ -5,7 +5,7 @@ pipeline {
         PROD_HOST  = credentials('DO_HOST')
         PROD_USER  = credentials('DO_USER')
         DEPLOY_DIR = '/www/wwwroot/CITSNVN/jenkins/angular'
-        BACKUP_DIR = '/www/wwwroot/CITSNVN/jenkins/angular'
+        BACKUP_DIR = '/www/wwwroot/CITSNVN/jenkins/angular_backup'
         BUILD_DIR  = 'dist/my-project'
     }
 
