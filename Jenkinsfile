@@ -20,17 +20,17 @@ pipeline {
                 bat 'npm install'
             }
         }
-
-        stage('Build Angular Project') {
-            steps {
-                bat 'ng build --configuration=production'
-            }
-        }
         stage('Verify Files') {
             steps {
                 bat 'dir src\\environments'
             }
         }
+        stage('Build Angular Project') {
+            steps {
+                bat 'ng build --configuration=production'
+            }
+        }
+        
 
 
         stage('Deploy to DigitalOcean') {
