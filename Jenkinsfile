@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PROD_HOST  = credentials('DO_HOST')     // from Jenkins global credentials
+        PROD_HOST  = credentials('DO_HOST')     // e.g., 159.89.172.251
         PROD_USER  = credentials('DO_USER')     // e.g., root
         DEPLOY_DIR = '/www/wwwroot/snvn.deepseahost.com/jenkins'
         BUILD_DIR  = 'dist/jenkins-angular-project'
@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Saddam-Hossen/JenkinsAngularProject.git'
+                git branch: 'main', url: 'https://github.com/Saddam-Hossen/JenkinsAngularProject.git'
             }
         }
 
@@ -32,7 +32,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
                     bat """
                     "C:\\Program Files\\Git\\bin\\bash.exe" -c \
-                    "scp -i $SSH_KEY -r ${BUILD_DIR}/* ${PROD_USER}@${PROD_HOST}:${DEPLOY_DIR}"
+                    "scp -o StrictHostKeyChecking=no -i \\"$SSH_KEY\\" -r ${BUILD_DIR}/* ${PROD_USER}@${PROD_HOST}:${DEPLOY_DIR}"
                     """
                 }
             }
