@@ -74,9 +74,6 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} << 'EOF'
                                 echo "🔁 Testing NGINX config..."
                                 nginx -t && systemctl reload nginx
-
-                                echo "♻️ Restarting Spring Boot backend..."
-                                systemctl restart my-spring-boot.service
                             EOF
                         '''
                         writeFile file: 'remote.sh', text: bashCmd
