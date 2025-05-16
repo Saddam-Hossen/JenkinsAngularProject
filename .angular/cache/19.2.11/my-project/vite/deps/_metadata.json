@@ -1,0 +1,70 @@
+{
+  "hash": "5e670590",
+  "configHash": "8838c52c",
+  "lockfileHash": "847313f2",
+  "browserHash": "ba604840",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "645427c3",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "68e1077b",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "e3ecbd93",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "e63e5e7c",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "077075d0",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "ca6a24dd",
+      "needsInterop": false
+    },
+    "jquery": {
+      "src": "../../../../../../node_modules/jquery/dist/jquery.js",
+      "file": "jquery.js",
+      "fileHash": "ef83101a",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-XQUFLSXV": {
+      "file": "chunk-XQUFLSXV.js"
+    },
+    "chunk-CQPM7ZUS": {
+      "file": "chunk-CQPM7ZUS.js"
+    },
+    "chunk-BLUE7YP6": {
+      "file": "chunk-BLUE7YP6.js"
+    },
+    "chunk-T2VLB5T2": {
+      "file": "chunk-T2VLB5T2.js"
+    },
+    "chunk-MDIP56IP": {
+      "file": "chunk-MDIP56IP.js"
+    },
+    "chunk-3OV72XIM": {
+      "file": "chunk-3OV72XIM.js"
+    }
+  }
+}
