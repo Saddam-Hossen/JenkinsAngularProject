@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
    private apiUrl = environment.baseUrl;  // Dynamically use the apiUrl from environment
-
+   
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
     const loginUrl = `${this.apiUrl}/api/student/login`; // Use backticks for template literal
+    console.log(`Login URL: ${loginUrl}`); // Log the URL for debugging
     return this.http.post(loginUrl, { username, password });
   }
 }
