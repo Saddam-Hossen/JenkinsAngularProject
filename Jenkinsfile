@@ -44,20 +44,23 @@ pipeline {
             }
         }
         stage('Reload NGINX & Restart Backend') {
-            steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${PROD_USER}@${PROD_HOST} << EOF
-                        echo "🔁 Testing NGINX config..."
-                        nginx -t && systemctl reload nginx
-                        
-                        echo "♻️ Restarting Spring Boot backend..."
-                        systemctl restart my-spring-boot.service  # Replace with your actual service name
-                    EOF
-                    """
+                steps {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
+                        bat """
+                        "C:\\Program Files\\Git\\bin\\bash.exe" -c '
+                            ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} "
+                                echo 🔁 Testing NGINX config...
+                                nginx -t && systemctl reload nginx
+
+                                echo ♻️ Restarting Spring Boot backend...
+                                systemctl restart my-spring-boot.service
+                            "
+                        '
+                        """
+                    }
                 }
             }
-        }
+
 
     }
 
