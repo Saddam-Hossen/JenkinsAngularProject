@@ -26,6 +26,12 @@ pipeline {
                 bat 'ng build --configuration=production'
             }
         }
+        stage('Verify Files') {
+            steps {
+                bat 'dir src\\environments'
+            }
+        }
+
 
         stage('Deploy to DigitalOcean') {
             steps {
