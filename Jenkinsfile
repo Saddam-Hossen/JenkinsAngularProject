@@ -5,7 +5,7 @@ pipeline {
         PROD_HOST  = credentials('DO_HOST')     // e.g., 159.89.172.251
         PROD_USER  = credentials('DO_USER')     // e.g., root
         DEPLOY_DIR = '/www/wwwroot/snvn.deepseahost.com/jenkins'
-        BUILD_DIR  = 'dist/jenkins-angular-project'
+        BUILD_DIR  = 'dist/my-project'          // ✅ Corrected build directory
     }
 
     stages {
