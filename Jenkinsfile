@@ -101,7 +101,6 @@ pipeline {
                             rm -rf ${DEPLOY_DIR}
                             cp -r ${BACKUP_DIR} ${DEPLOY_DIR}
                             nginx -t && systemctl reload nginx
-                            systemctl restart my-spring-boot.service
                         EOF
                     '''
                     writeFile file: 'rollback.sh', text: rollbackCmd
