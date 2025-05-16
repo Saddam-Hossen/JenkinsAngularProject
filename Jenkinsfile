@@ -5,7 +5,7 @@ pipeline {
         PROD_HOST  = credentials('DO_HOST')
         PROD_USER  = credentials('DO_USER')
         DEPLOY_DIR = '/www/wwwroot/CITSNVN/jenkins/angular'
-        BACKUP_DIR = '/www/wwwroot/CITSNVN/jenkins/angular'
+        BACKUP_DIR = '/www/wwwroot/CITSNVN/jenkins/angular_backup'
         BUILD_DIR  = 'dist/my-project'
     }
 
@@ -39,11 +39,11 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
                     script {
                         def bashCmd = '''#!/bin/bash
-                            ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} << 'EOF'
+                            ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} <<EOF
                                 echo "📦 Backing up current deployment..."
                                 rm -rf ${BACKUP_DIR}
                                 cp -r ${DEPLOY_DIR} ${BACKUP_DIR}
-                            EOF
+EOF
                         '''
                         writeFile file: 'backup.sh', text: bashCmd
                         bat '"C:\\Program Files\\Git\\bin\\bash.exe" backup.sh'
@@ -71,10 +71,10 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
                     script {
                         def bashCmd = '''#!/bin/bash
-                            ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} << 'EOF'
+                            ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} <<EOF
                                 echo "🔁 Testing NGINX config..."
                                 nginx -t && systemctl reload nginx
-                            EOF
+EOF
                         '''
                         writeFile file: 'remote.sh', text: bashCmd
                         bat '"C:\\Program Files\\Git\\bin\\bash.exe" remote.sh'
@@ -90,39 +90,37 @@ pipeline {
         }
 
         failure {
-            echo '❌ Build or deployment failed. Starting rollback...'
+            script {
+                echo '❌ Build or deployment failed. Starting rollback...'
 
-            // Rollback stage
-            withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
-                script {
+                withCredentials([sshUserPrivateKey(credentialsId: 'DO_SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
                     def rollbackCmd = '''#!/bin/bash
-                        ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} << 'EOF'
+                        ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" ${PROD_USER}@${PROD_HOST} <<EOF
                             echo "⏪ Rolling back to previous deployment..."
                             rm -rf ${DEPLOY_DIR}
                             cp -r ${BACKUP_DIR} ${DEPLOY_DIR}
                             nginx -t && systemctl reload nginx
-                        EOF
+EOF
                     '''
                     writeFile file: 'rollback.sh', text: rollbackCmd
                     bat '"C:\\Program Files\\Git\\bin\\bash.exe" rollback.sh'
                 }
-            }
 
-            // Email Notification
-            mail to: '01957098631a@gmail.com',
-                 subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: """\
+                mail to: '01957098631a@gmail.com',
+                    subject: "❌ Jenkins Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: """\
 Hello,
 
 The Jenkins build for job *${env.JOB_NAME}* (build #${env.BUILD_NUMBER}) has **failed**.
 
 Rollback has been triggered. Please review the console output.
 
-Link: ${env.BUILD_URL}
+🔗 Link: ${env.BUILD_URL}
 
-Regards,
+Regards,  
 Jenkins
 """
+            }
         }
     }
 }
