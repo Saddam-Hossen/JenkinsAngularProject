@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Verify Files') {
             steps {
-                bat 'dir src\\environments'
+                bat 'dir src\\app\\environments'
             }
         }
         stage('Build Angular Project') {
